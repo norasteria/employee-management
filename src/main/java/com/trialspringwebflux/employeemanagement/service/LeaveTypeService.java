@@ -5,6 +5,7 @@ import com.trialspringwebflux.employeemanagement.mapper.LeaveTypeMapper;
 import com.trialspringwebflux.employeemanagement.repository.LeaveTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class LeaveTypeService {
     public Mono<List<LeaveTypeResponseDTO>> getAllLeaveType(){
         return this.leaveTypeRepository
                 .findAll()
-                .flatMap(this.leaveTypeMapper::mapToDTO)
+                .flatMap(leaveType -> Flux.just(this.leaveTypeMapper.mapToDTO(leaveType)))
                 .collect(Collectors.toList());
     }
 }
